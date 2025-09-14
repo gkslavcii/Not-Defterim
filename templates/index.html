@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <title>Not Defteri</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 20px; }
+        h1 { color: #333; }
+        form { margin-bottom: 20px; }
+        input[type=text] { padding: 8px; width: 250px; }
+        button { padding: 8px 12px; }
+        ul { list-style: none; padding: 0; }
+        li { background: #fff; padding: 10px; margin-bottom: 8px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+        li.done { background: #d6f5d6; }
+        .note-left { display: flex; align-items: center; gap: 10px; }
+        .note-date { font-size: 0.8em; color: #666; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <h1>📒 Not Defteri</h1>
+    <form action="/add" method="post">
+        <input type="text" name="note" placeholder="Yeni not ekle..." required>
+        <button type="submit">Ekle</button>
+    </form>
+    <ul>
+        {% for n in notes %}
+        <li class="{% if n.done %}done{% endif %}">
+            <div class="note-left">
+                <input type="checkbox" onchange="location.href='/toggle/{{ loop.index0 }}'" {% if n.done %}checked{% endif %}>
+                <span>{{ n.text }}</span>
+                <span class="note-date">{{ n.date }}</span>
+            </div>
+            <a href="/delete/{{ loop.index0 }}">❌ Sil</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
